@@ -11,7 +11,7 @@ const register = async (request, h) =>{
 
     const cekValidation= await CompanyRequest.regisReq(name,username,confPassword , email,address, password);
 
-    if (cekValidation.status == 'danger'){
+    if (cekValidation.status == 'dangerr'){
 
         return h.response(cekValidation);
     }
