@@ -8,7 +8,7 @@ const db = new Sequelize('hapi', 'postgres', '28112000', {
 
 // const db = new Sequelize('skirpsi', 'postgres', '28112000', {
 //     host: "localhost",
-//     dialect: 'postgres's
+//     dialect: 'postgres'
 // });
 
 module.exports = { db }
