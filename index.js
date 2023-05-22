@@ -73,6 +73,6 @@ process.on('unhandledRejection', (err) => {
 });
 
 // const token = JWT.sign(people[1], process.env.ACCESS_TOKEN_SECRET); // synchronous
-// console.log(token);
+console.log(process.env.PASSWORD_DB);
 
 init();

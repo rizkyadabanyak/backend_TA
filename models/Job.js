@@ -32,6 +32,9 @@ const Job = config.db.define('job', {
     job_company:{
         type: DataTypes.STRING,
         allowNull: false,
+    },job_banner:{
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     job_salary:{
         type: DataTypes.STRING,

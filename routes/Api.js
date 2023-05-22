@@ -41,7 +41,7 @@ const rotues = [
     },
     {
         method: 'POST',
-        path: '/job/store',
+        path: '/company/job/store',
         config: {
             auth: 'jwt',
             payload: {
@@ -52,14 +52,27 @@ const rotues = [
         },
         handler: job.storeJob
     },
-    // {
-    //     method: 'GET',
-    //     path: '/company/getAllData',
-    //     config: {
-    //         auth: 'jwt',
-    //     },
-    //     handler: company.login
-    // },
+    {
+        method: 'POST',
+        path: '/company/job/update/{job_id}',
+        config: {
+            auth: 'jwt',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: job.updateJob
+    },
+    {
+        method: 'GET',
+        path: '/company/job/getAllData',
+        config: {
+            auth: 'jwt',
+        },
+        handler: job.getAllJob
+    },
     // {
     //     method: 'GET',
     //     path: '/jobs/detail/{job_id}',
