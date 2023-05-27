@@ -1,15 +1,26 @@
 #!/bin/bash
 
-#download node and npm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-. ~/.nvm/nvm.sh
-nvm install node
+# install nvm dan node
+echo "CEK NVM"
+if [ ! command -v nvm &> /dev/null ]; then
+  echo "NVM TIDAK DITEMUKAN"
+  echo "NVM AKAN DIINSTALL"
 
-#create our working directory if it doesnt exist
-DIR="/home/ec2-user/backend-app"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  . ~/.nvm/nvm.sh
+  echo "NVM BERHASIL DIINSTALL"
+  nvm install 16
+  node -e "console.log('NODEJS ' + process.version + ' BERHASIL DIINSTALL')"
+fi
+
+# CEK DIREKTORI
+DIR="/home/ec2-user/backend"
+echo "CEK DIRECTORY $DIR"
 if [ -d "$DIR" ]; then
-  echo "${DIR} exists"
+  echo "$DIR TELAH ADA"
 else
-  echo "Creating ${DIR} directory"
+  echo "$DIR BELUM ADA"
+  echo "MEMBUAT DIRECTORY"
   mkdir ${DIR}
+  sudo chmod -R 777 "$DIR"
 fi
