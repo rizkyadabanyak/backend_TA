@@ -14,14 +14,17 @@ const Category = config.db.define('category', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    category_slug:{
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 },{
-
     freezeTableName:true
 });
 
 
-(async () => {
-    await config.db.sync();
-})();
+// (async () => {
+//     await config.db.sync();
+// })();
 
 module.exports = {Category}

@@ -1,10 +1,35 @@
-// const index = require('../controllers/AdminController.js');
 const company = require('../controllers/CompanyController.js');
+const admin = require('../controllers/AdminController.js');
 const job = require('../controllers/JobController.js');
-// const job = require('../controllers/JobController.js');
-const Joi = require('@hapi/joi');
+const category = require('../controllers/CategoryController.js');
 
 const rotues = [
+    {
+        method: 'POST',
+        path: '/admin/register',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            }
+        },
+        handler: admin.register
+    },
+    {
+        method: 'POST',
+        path: '/admin/login',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: admin.login
+    },
     {
         method: 'POST',
         path: '/company/register',
@@ -73,6 +98,28 @@ const rotues = [
         },
         handler: job.getAllJob
     },
+    {
+        method: 'POST',
+        path: '/operation/category/store',
+        config: {
+            auth: 'jwt',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: category.store
+    },
+    {
+        method: 'GET',
+        path: '/uwus',
+        config: {
+            auth: 'jwt-admin',
+        },
+        handler: job.getAllJob
+    },
+
     // {
     //     method: 'GET',
     //     path: '/jobs/detail/{job_id}',

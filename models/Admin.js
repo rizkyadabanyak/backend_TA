@@ -4,39 +4,35 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const Company = config.db.define('company', {
-    company_id: {
+const Admin = config.db.define('admin', {
+    admin_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    company_name:{
+    admin_name:{
         type: DataTypes.STRING,
         allowNull: false,
     },
-    company_username:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    company_email:{
+    admin_username:{
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    company_password:{
+    admin_email:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    admin_password:{
         type: DataTypes.STRING,
         allowNull: false,
     },
-    company_img:{
+    admin_img:{
         type: DataTypes.STRING,
         // allowNull: false,
     },
-    company_address:{
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
-    company_refresh_token:{
+    admin_refresh_token:{
         type: DataTypes.TEXT
     }
 },{
@@ -45,4 +41,8 @@ const Company = config.db.define('company', {
 });
 
 
-module.exports = {Company}
+// (async () => {
+//     await config.db.sync();
+// })();
+
+module.exports = {Admin}

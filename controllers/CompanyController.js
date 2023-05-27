@@ -2,27 +2,35 @@ const {Company} = require("../models/Company");
 const jwt = require('jsonwebtoken');  // used to si
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
-const CompanyRequest = require('../request/CompanyRequest')
-
+const CompanyRequest = require('../request/CompanyRequest');
+const slug= require('slug');
+require('dotenv').config()
 
 const register = async (request, h) =>{
+
 
     const { name,username,confPassword , email,address, password } = request.payload;
 
     const cekValidation= await CompanyRequest.regisReq(name,username,confPassword , email,address, password);
 
-    if (cekValidation.status == 'dangerr'){
+    // return cekValidation;
+
+    if (cekValidation.status == 'danger'){
 
         return h.response(cekValidation);
     }
+    // return 'xxx';
 
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
+    var slug_data = slug(name, '_');
+    // return slug_data;
 
     try {
 
         const company = await Company.create({
             company_name: name,
+            company_slug: slug_data,
             company_username: username,
             company_email: email,
             company_address: address,
@@ -37,7 +45,7 @@ const register = async (request, h) =>{
 
     } catch (error) {
         return h.response({
-            message : error.errors[0].message,
+            message : error,
             data : null,
             status : "danger",
             statusCode : 400

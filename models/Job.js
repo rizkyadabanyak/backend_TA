@@ -14,6 +14,10 @@ const Job = config.db.define('job', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    job_slug:{
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     job_description:{
         type: DataTypes.TEXT('medium'),
     },
@@ -49,8 +53,8 @@ const Job = config.db.define('job', {
 });
 
 
-(async () => {
-    await config.db.sync();
-})();
+// (async () => {
+//     await config.db.sync();
+// })();
 
 module.exports = {Job}
