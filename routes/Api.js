@@ -5,6 +5,20 @@ const category = require('../controllers/CategoryController.js');
 
 const rotues = [
     {
+        method: 'GET',
+        path: '/',
+        config: {
+            auth: false,
+        },
+        handler: (request, h)=>{
+            return h.response({
+                message :"isi semua fieldsss",
+                data : null,
+                status : "danger",
+            });
+        }
+    },
+    {
         method: 'POST',
         path: '/admin/register',
         config: {

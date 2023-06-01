@@ -2,17 +2,21 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/backend
+    destination: /home/ubuntu/nodejs
 hooks:
   BeforeInstall:
     - location: scripts/before_install.sh
       timeout: 300
-      runas: ec2-user
-  ApplicationStart:
-    - location: scripts/application_start.sh
-      timeout: 300
-      runas: ec2-user
-  ApplicationStop:
-    - location: scripts/application_stop.sh
-      timeout: 300
-      runas: ec2-user
+      runas: ubuntu
+    # During the AfterInstall deployment lifecycle event, run the commands
+    #   in the script specified in "location".
+    AfterInstall:
+      - location: scripts/after_install.sh
+        timeout: 300
+        runas: ubuntu
+    # During the ApplicationInstall deployment lifecycle event, run the commands
+    #   in the script specified in "location".
+    ApplicationStart:
+      - location: scripts/application_start.sh
+        timeout: 300
+        runas: ubuntu
