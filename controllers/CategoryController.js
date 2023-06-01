@@ -35,7 +35,7 @@ const store = async (request, h)=>{
         return h.response({
             message : error.errors[0].message,
             data : null,
-            status : "danger",
+            status : "dangerr",
             statusCode : 400
 
         });
