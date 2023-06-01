@@ -1,17 +1,26 @@
 #!/bin/bash
 
-# Install node.js
-sudo apt-get install python-software-properties -y
-sudo apt-add-repository ppa:chris-lea/node.js -y
-sudo apt-get update
-sudo apt-get install nodejs -y
+# install nvm dan node
+echo "CEK NVM"
+if [ ! command -v nvm &> /dev/null ]; then
+  echo "NVM TIDAK DITEMUKAN"
+  echo "NVM AKAN DIINSTALL"
 
-# Install nodemon
-# sudo npm install nodemon -g
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  . ~/.nvm/nvm.sh
+  echo "NVM BERHASIL DIINSTALL"
+  nvm install 16
+  node -e "console.log('NODEJS ' + process.version + ' BERHASIL DIINSTALL')"
+fi
 
-# Install forever module
-# https://www.npmjs.com/package/forever
-sudo npm install forever -g
-
-# Clean working folder
-# sudo find /home/ubuntu/test -type f -delete
+# CEK DIREKTORI
+DIR="/home/ec2-user/backend"
+echo "CEK DIRECTORY $DIR"
+if [ -d "$DIR" ]; then
+  echo "$DIR TELAH ADA"
+else
+  echo "$DIR BELUM ADA"
+  echo "MEMBUAT DIRECTORY"
+  mkdir ${DIR}
+  sudo chmod -R 777 "$DIR"
+fi
