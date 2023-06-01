@@ -14,7 +14,7 @@ if [ ! command -v nvm &> /dev/null ]; then
 fi
 
 # CEK DIREKTORI
-DIR="/home/ec2-user/backend"
+DIR="/home/ubuntu/backend"
 echo "CEK DIRECTORY $DIR"
 if [ -d "$DIR" ]; then
   echo "$DIR TELAH ADA"
