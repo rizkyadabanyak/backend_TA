@@ -4,13 +4,13 @@ const validation = async (name)=>{
 
     // return 'sss';
     const schema = Joi.object({
-        salary: Joi.number()
+        name: Joi.string()
             .required(),
     });
     // return password;
     try {
         const value = await schema.validate({
-            salary : salary,
+            name : name,
         });
 
         // return value

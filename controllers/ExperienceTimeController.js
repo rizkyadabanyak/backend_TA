@@ -3,7 +3,7 @@ const Joi = require('joi');
 const fs = require('fs');
 const slug= require('slug');
 const {Job} = require("../models/Job");
-const SalaryRequest = require("../request/SalaryRequest");
+const ExperienceTimeRequest = require("../request/ExperienceTimeRequest");
 const {ExperienceTime} = require("../models/ExperienceTime");
 
 const index = async (request, h)=>{
@@ -19,11 +19,11 @@ const index = async (request, h)=>{
 
 const store = async (request, h)=>{
 
-    const { salary_end } = request.payload;
+    const { experience_name } = request.payload;
 
-    // return salary_end;
+    // return experience_name;
 
-    const cekValidation= await SalaryRequest.salary(salary_end);
+    const cekValidation= await ExperienceTimeRequest.validation(experience_name);
 
     // return cekValidation;
 
@@ -37,7 +37,7 @@ const store = async (request, h)=>{
     try {
 
         const data = await ExperienceTime.create({
-            salaryEnd_nominal: salary_end,
+            experienceTime_name: experience_name,
         });
 
         return h.response({
@@ -49,7 +49,7 @@ const store = async (request, h)=>{
         return h.response({
             message : error.errors[0].message,
             data : null,
-            status : "dangerr",
+            status : "danger",
             statusCode : 400
 
         });
@@ -61,21 +61,21 @@ const store = async (request, h)=>{
 
 const update = async (request, h)=>{
 
-    const {salaryEnd_id} = request.params;
-    const { salary_end } = request.payload;
+    const {experienceTime_id} = request.params;
+    const { experience_name } = request.payload;
 
-    // return salary_end;
-
-
+    // return experienceTime_id;
     try {
 
         const data =  await ExperienceTime.update({
-            salaryEnd_nominal: salary_end,
+            experienceTime_name: experience_name,
         },{
             where:{
-                salaryEnd_id: salaryEnd_id
+                experienceTime_id: experienceTime_id
             }
         });
+
+        // return data
 
         return h.response({
             message : 'success edit data',

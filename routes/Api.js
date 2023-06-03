@@ -3,7 +3,8 @@ const admin = require('../controllers/AdminController.js');
 const job = require('../controllers/JobController.js');
 const category = require('../controllers/CategoryController.js');
 const SalaryStart = require('../controllers/SalaryStartController.js');
-const SalaryEnd = require('../controllers/SalaryEndController.js');
+const SalaryEnd= require('../controllers/SalaryEndController.js');
+const ExperienceTime = require('../controllers/ExperienceTimeController.js');
 
 const rotues = [
     {
@@ -215,6 +216,40 @@ const rotues = [
             },
         },
         handler: SalaryEnd.update
+    },
+    {
+        method: 'POST',
+        path: '/operation/ExperienceTime/store',
+        config: {
+            auth: 'jwt-admin',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: ExperienceTime.store
+    },
+    {
+        method: 'GET',
+        path: '/operation/ExperienceTime/index',
+        config: {
+            auth: false,
+        },
+        handler: ExperienceTime.index
+    },
+    {
+        method: 'POST',
+        path: '/operation/ExperienceTime/update/{experienceTime_id}',
+        config: {
+            auth: 'jwt-admin',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: ExperienceTime.update
     },
     {
         method: 'GET',

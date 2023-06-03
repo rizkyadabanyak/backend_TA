@@ -65,7 +65,6 @@ const update = async (request, h)=>{
 
     // return SalaryStart;
 
-
     try {
 
         const data =  await SalaryStart.update({
