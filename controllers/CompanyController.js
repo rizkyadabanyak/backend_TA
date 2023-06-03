@@ -68,10 +68,11 @@ const login = async (request, h) =>{
             data : null,
             status : "danger",
             statusCode : 400
-
         }).code(400);
     }
 
+
+    // return company;
     try {
         const company = await Company.findOne({ where: { company_username: username } });
 
@@ -89,9 +90,11 @@ const login = async (request, h) =>{
         const userId = company.company_id;
         const name = company.company_name;
         const email = company.company_email;
+        const username_as = company.company_username;
+        const as = 'company';
 
-        const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: '1d'
+        const accessToken = jwt.sign({userId, name, email,as,username_as}, process.env.ACCESS_TOKEN_SECRET,{
+            expiresIn: '1h'
         });
 
         await Company.update({company_refresh_token: accessToken},{
@@ -113,7 +116,7 @@ const login = async (request, h) =>{
     } catch (error) {
 
         return h.response({
-            message : error.errors[0].message,
+            message : error,
             data : null,
             status : "danger",
             statusCode : 400

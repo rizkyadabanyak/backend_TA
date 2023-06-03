@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');  // used to si
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const {Admin} = require("../models/Admin");
+const {Job} = require("../models/Job");
 require('dotenv').config()
 
 
@@ -53,6 +54,28 @@ const register = async (request, h) =>{
     }
 }
 
+
+const cekAdmin = async (as,token)=>{
+
+    // return token;
+
+    try {
+
+        const data = await Admin.findOne({ where: { admin_refresh_token: token } });
+
+        // return data;
+        if (data){
+            return true
+        }else {
+            return false
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 const login = async (request, h) =>{
     // const { username, password } = request.payload;
     const req = request.payload;
@@ -69,6 +92,7 @@ const login = async (request, h) =>{
             statusCode : 400
         }).code(400);
     }
+
 
     try {
         const admin = await Admin.findOne({ where: { admin_username: username } });
@@ -88,11 +112,13 @@ const login = async (request, h) =>{
         const userId = admin.admin_id;
         const name = admin.admin_name;
         const email = admin.admin_email;
+        const username_as = admin.admin_username;
+        const as = 'admin';
 
         // return email;
 
-        const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET_ADMIN,{
-            expiresIn: '1d'
+        const accessToken = jwt.sign({userId, name, email,username_as,as}, process.env.ACCESS_TOKEN_SECRET_ADMIN,{
+            expiresIn: '1h'
         });
 
         await Admin.update({admin_refresh_token: accessToken},{
@@ -125,5 +151,5 @@ const login = async (request, h) =>{
 }
 
 
-module.exports = { register,login }
+module.exports = { register,login,cekAdmin }
 

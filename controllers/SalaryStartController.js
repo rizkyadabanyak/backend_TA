@@ -1,14 +1,15 @@
-const { Category } = require("../models/Catogory");
+const { SalaryStart } = require("../models/SalaryStart");
 const Joi = require('joi');
 const fs = require('fs');
 const slug= require('slug');
 const {Job} = require("../models/Job");
+const SalaryRequest = require("../request/SalaryRequest");
 
-const getAllCategory = async (request, h)=>{
+const index = async (request, h)=>{
     try {
-        const categories = await Category.findAll();
+        const data = await SalaryStart.findAll();
         return h.response({
-            data : categories
+            data : data
         });
     } catch (error) {
         console.log(error);
@@ -17,19 +18,29 @@ const getAllCategory = async (request, h)=>{
 
 const store = async (request, h)=>{
 
-    const { category_name } = request.payload;
+    const { salary_start } = request.payload;
 
-    const slug_data = slug(category_name, '_');
+    // return salary_start;
+
+    const cekValidation= await SalaryRequest.salary(salary_start);
+
+    // return cekValidation;
+
+    // return 'xxx';
+    if (cekValidation.status == 'danger'){
+
+        return h.response(cekValidation);
+    }
+
     // return slug_data;
     try {
 
-        const Data = await Category.create({
-            category_name: category_name,
-            category_slug: slug_data,
+        const data = await SalaryStart.create({
+            salaryStart_nominal: salary_start,
         });
 
         return h.response({
-            data : Data
+            data : data
         });
 
     } catch (error) {
@@ -49,19 +60,19 @@ const store = async (request, h)=>{
 
 const update = async (request, h)=>{
 
-    const {category_id} = request.params;
-    const { category_name } = request.payload;
+    const {salaryStart_id} = request.params;
+    const { salary_start } = request.payload;
 
-    const slug_data = slug(category_name, '_');
+    // return SalaryStart;
+
 
     try {
 
-        const job =  await Category.update({
-            category_name: category_name,
-            category_slug: slug_data,
+        const data =  await SalaryStart.update({
+            salaryStart_nominal: salary_start,
         },{
             where:{
-                category_id: category_id
+                salaryStart_id: salaryStart_id
             }
         });
 
@@ -85,22 +96,6 @@ const update = async (request, h)=>{
 
 }
 
-const index = async (request, h)=>{
 
-    try {
-
-        const data = await Category.findAll();
-
-        return h.response({
-            data : data
-        });
-
-    } catch (error) {
-        console.log(error);
-    }
-
-}
-
-
-module.exports = { store, getAllCategory,index,update }
+module.exports = { store,index,update }
 

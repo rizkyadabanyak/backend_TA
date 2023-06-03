@@ -3,30 +3,40 @@
 const Hapi = require('@hapi/hapi');
 const rotues = require('./routes/Api.js');
 const JWT = require('jsonwebtoken');  // used to si
+const admin = require('./controllers/AdminController.js');
 
 const config = require('./database/config');
 
 // gn our content
 require('dotenv').config()
 
-const people= { // our "users database"
-    1: {
-        id: 1,
-        name: 'Jen Jones'
-    }
-};
-
 const validate = async function (decoded, request, h) {
 
+    // return 'xxx';
     // do your checks to see if the person is valid
-    console.log(decoded);
+    // console.log(request.auth.token);
 
-    if (!people[decoded.userId]) {
-        return { isValid: false };
+    const as = decoded.as;
+    const token = request.auth.token;
+    const username_as = decoded.username_as;
+
+    var cek = false;
+
+    if (as == 'admin'){
+        // console.log(admin.cekAdmin());
+
+        cek = await admin.cekAdmin(as,token);
+
+        return { isValid: cek };
     }
-    else {
-        return { isValid: true };
-    }
+    // return { isValid: true };
+
+    // if (!people[decoded.userId]) {
+    //     return { isValid: false };
+    // }
+    // else {
+    //     return { isValid: true };
+    // }
 };
 
 const init = async () => {

@@ -4,19 +4,15 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const Category = config.db.define('category', {
-    category_id: {
+const SalaryStart = config.db.define('salaryStart', {
+    salaryStart_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    category_name:{
-        type: DataTypes.STRING,
+    salaryStart_nominal: {
+        type: DataTypes.FLOAT,
         allowNull: false,
-    },
-    category_slug:{
-        type: DataTypes.STRING,
-        allowNull: true,
         unique: true
     },
 },{
@@ -24,8 +20,4 @@ const Category = config.db.define('category', {
 });
 
 
-// (async () => {
-//     await config.db.sync();
-// })();
-
-module.exports = {Category}
+module.exports = {SalaryStart}
