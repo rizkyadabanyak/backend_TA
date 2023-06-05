@@ -43,9 +43,13 @@ const init = async () => {
     const server = Hapi.server({
         port: 3000,
         host: process.env.HOST_SERVER,
-        "routes": {
-            "cors": true
-        }
+        routes: {
+            cors: {
+                origin: ['*'], // an array of origins or 'ignore'
+                headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language'], // all default apart from Accept-language
+                additionalHeaders: ['cache-control', 'x-requested-with', 'Access-Control-Allow-Origin']
+            }
+        },
     });
 
     await server.register([
