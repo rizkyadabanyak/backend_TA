@@ -44,11 +44,7 @@ const init = async () => {
         port: 3000,
         host: process.env.HOST_SERVER,
         routes: {
-            cors: {
-                origin: ['*'], // an array of origins or 'ignore'
-                headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'Accept-language'], // all default apart from Accept-language
-                additionalHeaders: ['cache-control', 'x-requested-with', 'Access-Control-Allow-Origin']
-            }
+            cors: true,
         },
     });
 
