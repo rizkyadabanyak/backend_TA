@@ -16,7 +16,7 @@ const rotues = [
         },
         handler: (request, h)=>{
             return h.response({
-                message :"isi semua uwus",
+                message :"isi semua uwusssss",
                 data : null,
                 status : "danger",
             });
