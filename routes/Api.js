@@ -5,6 +5,7 @@ const category = require('../controllers/CategoryController.js');
 const SalaryStart = require('../controllers/SalaryStartController.js');
 const SalaryEnd= require('../controllers/SalaryEndController.js');
 const ExperienceTime = require('../controllers/ExperienceTimeController.js');
+const Seeder = require('../seeders/Seeder');
 
 const rotues = [
     {
@@ -258,6 +259,14 @@ const rotues = [
             auth: 'jwt-admin',
         },
         handler: job.getAllJob
+    },
+    {
+        method: 'GET',
+        path: '/runSeeder',
+        config: {
+            auth: false,
+        },
+        handler: Seeder.runSeeder
     },
 
     // {
