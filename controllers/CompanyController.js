@@ -105,10 +105,8 @@ const login = async (request, h) =>{
 
         return h.response({
             message : 'success Login',
-            token : accessToken,
             data : {
-                name : name,
-                company_email : email
+                token : accessToken
             },
             status : "success",
             statusCode : 200
