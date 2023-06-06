@@ -152,6 +152,19 @@ const rotues = [
     },
     {
         method: 'POST',
+        path: '/operation/category/destroy/{category_id}',
+        config: {
+            auth: 'jwt-admin',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: category.destroy
+    },
+    {
+        method: 'POST',
         path: '/operation/SalaryStart/store',
         config: {
             auth: 'jwt-admin',

@@ -101,6 +101,29 @@ const index = async (request, h)=>{
 
 }
 
+const destroy = async (request, h)=>{
+    const {category_id} = request.params;
 
-module.exports = { store, getAllCategory,index,update }
+    const count = await Category.destroy({ where: { category_id: category_id } });
+
+    return h.response({
+        message : 'Deleted successfully'
+    });
+
+    // Category.destroy({
+    //     where: {
+    //         category_id: category_id //this will be your id that you want to delete
+    //     }
+    // }).then(function(rowDeleted){ // rowDeleted will return number of rows deleted
+    //     return h.response({
+    //         message : 'Deleted successfully'
+    //     });
+    // }, function(err){
+    //     console.log(err);
+    // });
+
+}
+
+
+module.exports = { store, getAllCategory,index,update,destroy }
 
