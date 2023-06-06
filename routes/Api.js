@@ -151,15 +151,10 @@ const rotues = [
         handler: category.update
     },
     {
-        method: 'POST',
+        method: 'GET',
         path: '/operation/category/destroy/{category_id}',
         config: {
             auth: 'jwt-admin',
-            payload: {
-                parse: true,
-                allow: 'multipart/form-data',
-                multipart: { output: 'stream' },
-            },
         },
         handler: category.destroy
     },
