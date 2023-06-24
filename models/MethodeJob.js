@@ -4,18 +4,18 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const MethodeJob = config.db.define('methodeJob', {
-    methodeJob_id: {
+const MethodeJob = config.db.define('methode_job', {
+    methode_job_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    methodeJob_name: {
+    methode_job_name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    methodeJob_slug: {
+    methode_job_slug: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true

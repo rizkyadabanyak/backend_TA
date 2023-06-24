@@ -4,18 +4,18 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const TypeJob = config.db.define('typeJob', {
-    typeJob_id: {
+const TypeJob = config.db.define('type_job', {
+    type_job_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    typeJob_name: {
+    type_job_name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    typeJob_slug: {
+    type_job_slug: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true

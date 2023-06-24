@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 const rotues = require('./routes/Api.js');
 const JWT = require('jsonwebtoken');  // used to si
 const admin = require('./controllers/AdminController.js');
+const company = require('./controllers/CompanyController.js');
 
 const config = require('./database/config');
 
@@ -22,10 +23,15 @@ const validate = async function (decoded, request, h) {
 
     var cek = false;
 
+    // console.log(as);
     if (as == 'admin'){
         // console.log(admin.cekAdmin());
 
         cek = await admin.cekAdmin(as,token);
+
+        return { isValid: cek };
+    }else if (as == 'company'){
+        cek = await company.cekCompany(as,token);
 
         return { isValid: cek };
     }
@@ -49,6 +55,12 @@ const init = async () => {
     });
 
     await server.register([
+        {
+            plugin: require('hapi-pgsql'),
+            options: {
+                database_url: 'postgresql://postgres:28112000@127.0.0.1/skirpsi',
+            }
+        },
         {
             plugin: require('hapi-auth-jwt2'),
             options: {}

@@ -84,7 +84,7 @@ const rotues = [
     },
     {
         method: 'POST',
-        path: '/company/job/store',
+        path: '/operation/job/store',
         config: {
             auth: 'jwt',
             payload: {
@@ -93,11 +93,11 @@ const rotues = [
                 multipart: { output: 'stream' },
             },
         },
-        handler: job.storeJob
+        handler: job.store
     },
     {
         method: 'POST',
-        path: '/company/job/update/{job_id}',
+        path: '/operation/job/update/{job_id}',
         config: {
             auth: 'jwt',
             payload: {
@@ -110,11 +110,11 @@ const rotues = [
     },
     {
         method: 'GET',
-        path: '/company/job/getAllData',
+        path: '/operation/job/index',
         config: {
-            auth: 'jwt',
+            auth: false,
         },
-        handler: job.getAllJob
+        handler: job.index
     },
     {
         method: 'POST',
@@ -266,7 +266,7 @@ const rotues = [
         config: {
             auth: 'jwt-admin',
         },
-        handler: job.getAllJob
+        handler: job.index
     },
     {
         method: 'GET',

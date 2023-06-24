@@ -21,6 +21,7 @@
     "hapi-auth-cookie": "^10.0.0",
     "hapi-auth-jwt2": "^10.4.0",
     "hapi-pgsql": "^1.0.2",
+    "hapi-plugin-pg": "^1.1.2",
     "hapi-postgres-connection": "^7.0.0",
     "hapi-sequelizejs": "^4.6.1",
     "slug": "^8.2.2"

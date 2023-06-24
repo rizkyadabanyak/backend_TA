@@ -4,6 +4,7 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const CompanyRequest = require('../request/CompanyRequest');
 const slug= require('slug');
+const {Admin} = require("../models/Admin");
 require('dotenv').config()
 
 const register = async (request, h) =>{
@@ -178,17 +179,49 @@ const getALl = async (request, h)=>{
 
 }
 
-const cek = async (request, h)=>{
-    let cookie = request.state
-    // console.log(request.state.data);
-    return h.response({
-        message : 'success Login',
-        data : {
-            token : cookie
-        },
-        status : "success"
-    });
+const cekCompany = async (as,token)=>{
+
+    // return token;
+
+    try {
+
+        const data = await Company.findOne({ where: { company_refresh_token: token } });
+
+        // return data;
+        if (data){
+            return true
+        }else {
+            return false
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
-module.exports = { register , login, logout ,cek }
+const getCompany = async (token)=>{
+
+    // return token;
+
+    try {
+
+        const data = await Company.findOne({ where: { company_refresh_token: token } });
+
+        // return data;
+        if (data){
+            return data
+        }else {
+            return null
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+
+module.exports = { register , login, logout ,cekCompany,getCompany}
 
