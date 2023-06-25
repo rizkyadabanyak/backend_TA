@@ -98,6 +98,13 @@ const login = async (request, h) =>{
         const admin = await Admin.findOne({ where: { admin_username: username } });
 
         // return admin;
+        if (!admin){
+            return h.response({
+                message : 'Wrong Password',
+                data : null,
+                status : "danger"
+            }).code(401)
+        }
 
         const match = await bcrypt.compare(password, admin.admin_password);
 
@@ -107,7 +114,7 @@ const login = async (request, h) =>{
                 message : 'Wrong Password',
                 data : null,
                 status : "danger"
-            }).code(400)
+            }).code(401)
         }
         const userId = admin.admin_id;
         const name = admin.admin_name;

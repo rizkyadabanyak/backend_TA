@@ -78,6 +78,13 @@ const login = async (request, h) =>{
         const company = await Company.findOne({ where: { company_username: username } });
 
 
+        if (!company){
+            return h.response({
+                message : 'Wrong Password',
+                data : null,
+                status : "danger"
+            }).code(401)
+        }
         const match = await bcrypt.compare(password, company.company_password);
 
         // return match;
