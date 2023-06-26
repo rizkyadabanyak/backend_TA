@@ -24,6 +24,7 @@
     "hapi-plugin-pg": "^1.1.2",
     "hapi-postgres-connection": "^7.0.0",
     "hapi-sequelizejs": "^4.6.1",
-    "slug": "^8.2.2"
+    "slug": "^8.2.2",
+    "twilio": "^4.12.0"
   }
 }

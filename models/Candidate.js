@@ -4,44 +4,58 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const Company = config.db.define('company', {
-    company_id: {
+const Candidate = config.db.define('candidate', {
+    candidate_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    company_name:{
+    candidate_name:{
         type: DataTypes.STRING,
         allowNull: false,
     },
-    company_username:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    company_email:{
+    candidate_username:{
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    company_password:{
+    candidate_email:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    candidate_password:{
         type: DataTypes.STRING,
         allowNull: false,
     },
-    company_img:{
+    candidate_img:{
         type: DataTypes.STRING,
         // allowNull: false,
     },
-    company_address:{
+    candidate_address:{
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    company_verif:{
+    candidate_phone_number:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+    candidate_otp:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+    candidate_otp_update_at:{
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    candidate_verif:{
         type: DataTypes.ENUM('yes','no'),
         allowNull: false,
         defaultValue: 'no'
     },
-    company_refresh_token:{
+    candidate_refresh_token:{
         type: DataTypes.TEXT
     }
 },{
@@ -50,4 +64,4 @@ const Company = config.db.define('company', {
 });
 
 
-module.exports = {Company}
+module.exports = {Candidate}

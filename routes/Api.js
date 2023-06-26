@@ -1,4 +1,5 @@
 const company = require('../controllers/CompanyController.js');
+const jobSeekers = require('../controllers/users/CandidateController');
 const admin = require('../controllers/AdminController.js');
 const job = require('../controllers/JobController.js');
 const category = require('../controllers/CategoryController.js');
@@ -16,11 +17,63 @@ const rotues = [
         },
         handler: (request, h)=>{
             return h.response({
-                message :"isi semua uwusssss",
+                message :"Berhasil Upload ke EC2 ",
                 data : null,
                 status : "danger",
             });
         }
+    },
+    {
+        method: 'POST',
+        path: '/job-seekers/register',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            }
+        },
+        handler: jobSeekers.register
+    },
+    {
+        method: 'POST',
+        path: '/job-seekers/login',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: jobSeekers.login
+    },
+    {
+        method: 'POST',
+        path: '/job-seekers/sendOTP',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            }
+        },
+        handler: jobSeekers.sendOTP
+    },
+    {
+        method: 'POST',
+        path: '/job-seekers/verifOTP',
+        config: {
+            auth: false,
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            }
+        },
+        handler: jobSeekers.verifOTP
     },
     {
         method: 'POST',

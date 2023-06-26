@@ -29,6 +29,7 @@ const store = async (request, h)=>{
     // return 'xxx';
     if (cekValidation.status == 'danger'){
 
+        // return 'sss';
         return h.response(cekValidation);
     }
 
@@ -36,7 +37,7 @@ const store = async (request, h)=>{
     try {
 
         const data = await SalaryStart.create({
-            salaryStart_nominal: salary_start,
+            salary_start_nominal: salary_start,
         });
 
         return h.response({
@@ -68,10 +69,10 @@ const update = async (request, h)=>{
     try {
 
         const data =  await SalaryStart.update({
-            salaryStart_nominal: salary_start,
+            salary_start_nominal: salary_start,
         },{
             where:{
-                salaryStart_id: salaryStart_id
+                salary_start_id: salaryStart_id
             }
         });
 

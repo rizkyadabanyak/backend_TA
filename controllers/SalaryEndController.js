@@ -36,7 +36,7 @@ const store = async (request, h)=>{
     try {
 
         const data = await SalaryEnd.create({
-            salaryEnd_nominal: salary_end,
+            salary_end_nominal: salary_end,
         });
 
         return h.response({
@@ -69,10 +69,10 @@ const update = async (request, h)=>{
     try {
 
         const data =  await SalaryEnd.update({
-            salaryEnd_nominal: salary_end,
+            salary_end_nominal: salary_end,
         },{
             where:{
-                salaryEnd_id: salaryEnd_id
+                salary_end_id: salaryEnd_id
             }
         });
 

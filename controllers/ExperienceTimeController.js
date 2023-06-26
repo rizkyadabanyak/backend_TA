@@ -37,7 +37,7 @@ const store = async (request, h)=>{
     try {
 
         const data = await ExperienceTime.create({
-            experienceTime_name: experience_name,
+            experience_time_name: experience_name,
         });
 
         return h.response({
@@ -68,10 +68,10 @@ const update = async (request, h)=>{
     try {
 
         const data =  await ExperienceTime.update({
-            experienceTime_name: experience_name,
+            experience_time_name: experience_name,
         },{
             where:{
-                experienceTime_id: experienceTime_id
+                experience_time_id: experienceTime_id
             }
         });
 
