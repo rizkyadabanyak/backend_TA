@@ -58,7 +58,7 @@ const init = async () => {
         {
             plugin: require('hapi-pgsql'),
             options: {
-                database_url: 'postgresql://postgres:28112000@127.0.0.1/skirpsi',
+                database_url: process.env.DATABASE_URL,
             }
         },
         {
