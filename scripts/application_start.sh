@@ -8,5 +8,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 npm install
-
-node ./src/server.js > app.out.log 2> app.err.log < /dev/null &
+#nodemon index.js
+node index.js > app.out.log 2> app.err.log < /dev/null &
