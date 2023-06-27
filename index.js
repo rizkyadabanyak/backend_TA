@@ -68,7 +68,7 @@ const init = async () => {
             plugin: require('hapi-sequelizejs'),
             options: [
                 {
-                    name: 'skripsi', // identifier
+                    name: 'skirpsi', // identifier
                     models: [__dirname + '/server/models/**/*.js'], // paths/globs to model files
                     // ignoredModels: [__dirname + '/server/models/**/*.js'], // OPTIONAL: paths/globs to ignore files
                     sequelize: config.db, // sequelize instance
