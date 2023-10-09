@@ -5,9 +5,10 @@ const bcrypt = require('bcrypt');
 const {Candidate} = require("../../models/Candidate");
 const {Job} = require("../../models/Job");
 const {Category} = require("../../models/Catogory");
+const {Company} = require("../../models/Company");
 
 const accountSid = 'AC5eeb4158766e7dde48a4954d34266c49';
-const authToken = '1d3d2268dd796e4b84e7695987b25da4';
+const authToken = '46c8994ba963d806aa0c1289ddc27946';
 const client = require('twilio')(accountSid, authToken);
 
 require('dotenv').config()
@@ -81,6 +82,8 @@ const cekAuth = async (as,token)=>{
 }
 
 const login = async (request, h) =>{
+
+
     // const { username, password } = request.payload;
     const req = request.payload;
 
@@ -99,10 +102,10 @@ const login = async (request, h) =>{
 
 
     try {
-        const admin = await Admin.findOne({ where: { admin_username: username } });
+        const candidate = await Candidate.findOne({ where: { candidate_username: username } });
 
-        // return admin;
-        if (!admin){
+
+        if (!candidate){
             return h.response({
                 message : 'Wrong Password',
                 data : null,
@@ -110,7 +113,7 @@ const login = async (request, h) =>{
             }).code(401)
         }
 
-        const match = await bcrypt.compare(password, admin.admin_password);
+        const match = await bcrypt.compare(password, candidate.candidate_password);
 
         // return match;
         if(!match){
@@ -120,21 +123,22 @@ const login = async (request, h) =>{
                 status : "danger"
             }).code(401)
         }
-        const userId = admin.admin_id;
-        const name = admin.admin_name;
-        const email = admin.admin_email;
-        const username_as = admin.admin_username;
-        const as = 'admin';
+
+        const userId = candidate.candidate_id;
+        const name = candidate.candidate_name;
+        const email = candidate.admin_email;
+        const username_as = candidate.candidate_username;
+        const as = 'candidate';
 
         // return email;
 
-        const accessToken = jwt.sign({userId, name, email,username_as,as}, process.env.ACCESS_TOKEN_SECRET_ADMIN,{
+        const accessToken = jwt.sign({userId, name, email,username_as,as}, process.env.ACCESS_TOKEN_SECRET_CANDIDATE,{
             expiresIn: '1h'
         });
 
-        await Admin.update({admin_refresh_token: accessToken},{
+        await Candidate.update({candidate_refresh_token: accessToken},{
             where:{
-                admin_id: userId
+                candidate_id: userId
             }
         });
 
@@ -262,6 +266,60 @@ const verifOTP = async (request, h) =>{
 
 
 
+const cekCandidate = async (as,token)=>{
 
-module.exports = { register,login,cekAuth,sendOTP,verifOTP }
+    // return token;
+
+    try {
+
+        const data = await Candidate.findOne({ where: { candidate_refresh_token: token } });
+
+        // return data;
+        if (data){
+            return true
+        }else {
+            return false
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+const getCandidate = async (token)=>{
+
+    // return token;
+
+    try {
+
+        const data = await Candidate.findOne({ where: { candidate_refresh_token: token } });
+
+        // return data;
+        if (data){
+            return data
+        }else {
+            return null
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+const updateCv = async (candidate_id,upload_file) =>{
+    const update_cv =  await Candidate.update({
+        candidate_cv: upload_file,
+    },{
+        where:{
+            candidate_id: candidate_id
+        }
+    });
+
+    return update_cv
+}
+
+module.exports = { register,login,cekAuth,sendOTP,verifOTP,cekCandidate,getCandidate,updateCv }
 

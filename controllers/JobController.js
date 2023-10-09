@@ -1,13 +1,19 @@
 const {Company} = require("../models/Company");
+const {JobApply} = require("../models/JobApply");
 const {Job} = require("../models/Job");
 const CompanyController = require("../controllers/CompanyController");
+const CandidateController = require("../controllers/users/CandidateController");
 const Joi = require('joi');
 const fs = require('fs');
 const JobRequest = require("../request/JobRequest");
+const baseController = require("../controllers/Controller");
 const slug= require('slug');
 const {job} = require("../request/JobRequest");
 const Sequelize = require('sequelize')
+const {Candidate} = require("../models/Candidate");
+const {Category} = require("../models/Catogory");
 const {DataTypes} = Sequelize;
+
 const index = async (request, h)=>{
 
     try {
@@ -236,15 +242,136 @@ const updateJob = async (request, h)=>{
         return h.response({
             message : error,
             data : null,
-            status : "danger",
+            status : "failed",
             statusCode : 400
-
         });
 
     }
 
 }
 
+const getJob = async (job_id)=>{
+    const job = await Job.findOne({ where: { job_id: job_id } });
 
-module.exports = { store, updateJob , index, getDetailJob }
+    return job;
+}
+
+const applyJob = async (request, h)=>{
+
+    const {job_id} = request.params; // param
+    const { deskripsi,cv_file,change_cv_file } = request.payload;  // form
+
+    const header = request.headers.authorization;
+
+    const arrayHeader = header.split(" ");
+
+    const data_candidate = await CandidateController.getCandidate(arrayHeader[1]);
+
+    const data_job = await getJob(job_id);
+    //
+    // return h.response(data_job);
+    candidate_username = data_candidate.candidate_username;
+
+
+    // return h.response({
+    //     message : 'success create data job',
+    //     data : job,
+    //     status : "success",
+    // });
+
+    if (!deskripsi || !change_cv_file || !cv_file){
+        if (change_cv_file == 'new'){
+            return h.response({
+                message : "All fields must be filled in",
+                data : null,
+                status : "failed",
+                statusCode : 400
+            });
+        }
+    }
+
+    const cek_job_apply = await JobApply.findOne({
+        where: {
+            job_apply_job_id: job_id,
+            job_apply_candidate_id: String(data_candidate.candidate_id),
+            job_apply_company_id: String(data_job.job_company_id)
+        }
+    });
+
+    if (cek_job_apply){
+        return h.response({
+            message : "You have applied for this job",
+            data : null,
+            status : "error",
+            statusCode : 400
+        }).code(400);
+    }
+
+
+    if (change_cv_file == 'new'){
+        const upload_file = await baseController.upload_file_cv(cv_file,candidate_username);
+
+        // return h.response(upload_file);
+
+        if (upload_file){
+
+            const createJobApply = await JobApply.create({
+                job_apply_candidate_id: data_candidate.candidate_id,
+                job_apply_company_id: data_job.job_company_id,
+                job_apply_job_id: job_id,
+                job_apply_description: deskripsi,
+            });
+
+            const update_cv = CandidateController.updateCv(data_candidate.candidate_id,upload_file)
+
+            return h.response({
+                message : "success apply job",
+                data : createJobApply,
+                status : "success",
+                statusCode : 200
+            });
+
+        }
+    }else {
+
+        if (data_candidate.candidate_cv == null){
+            return h.response({
+                message : "cv not be null",
+                data : null,
+                status : "error",
+                statusCode : 400
+            }).code(400);
+        }
+
+
+        const createJobApply = await JobApply.create({
+            job_apply_candidate_id: data_candidate.candidate_id,
+            job_apply_company_id: data_job.job_company_id,
+            job_apply_job_id: job_id,
+            job_apply_description: deskripsi,
+        });
+
+        return h.response({
+            message : "success apply job",
+            data : createJobApply,
+            status : "success",
+            statusCode : 200
+        });
+    }
+
+
+
+    return h.response(data_candidate);
+
+    // return cekValidation;
+
+    if (cekValidation.status == 'danger'){
+
+        return h.response(cekValidation);
+    }
+
+}
+
+
+module.exports = { store, updateJob , index, getDetailJob,applyJob }
 

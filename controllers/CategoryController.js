@@ -106,6 +106,13 @@ const destroy = async (request, h)=>{
 
     const count = await Category.destroy({ where: { category_id: category_id } });
 
+    if (count == 0){
+        return h.response({
+            message : 'Deleted failed',
+            statusCode : 400
+        }).code(400);
+    }
+
     return h.response({
         message : 'Deleted successfully'
     });

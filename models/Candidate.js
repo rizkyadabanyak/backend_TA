@@ -46,6 +46,10 @@ const Candidate = config.db.define('candidate', {
         allowNull: true,
         unique: true
     },
+    candidate_cv:{
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     candidate_otp_update_at:{
         type: DataTypes.DATE,
         allowNull: true,

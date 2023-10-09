@@ -1,5 +1,5 @@
 const company = require('../controllers/CompanyController.js');
-const jobSeekers = require('../controllers/users/CandidateController');
+const candidate = require('../controllers/users/CandidateController');
 const admin = require('../controllers/AdminController.js');
 const job = require('../controllers/JobController.js');
 const category = require('../controllers/CategoryController.js');
@@ -25,7 +25,7 @@ const rotues = [
     },
     {
         method: 'POST',
-        path: '/job-seekers/register',
+        path: '/candidate/register',
         config: {
             auth: false,
             payload: {
@@ -34,11 +34,11 @@ const rotues = [
                 multipart: { output: 'stream' },
             }
         },
-        handler: jobSeekers.register
+        handler: candidate.register
     },
     {
         method: 'POST',
-        path: '/job-seekers/login',
+        path: '/candidate/login',
         config: {
             auth: false,
             payload: {
@@ -47,11 +47,11 @@ const rotues = [
                 multipart: { output: 'stream' },
             },
         },
-        handler: jobSeekers.login
+        handler: candidate.login
     },
     {
         method: 'POST',
-        path: '/job-seekers/sendOTP',
+        path: '/candidate/sendOTP',
         config: {
             auth: false,
             payload: {
@@ -60,11 +60,11 @@ const rotues = [
                 multipart: { output: 'stream' },
             }
         },
-        handler: jobSeekers.sendOTP
+        handler: candidate.sendOTP
     },
     {
         method: 'POST',
-        path: '/job-seekers/verifOTP',
+        path: '/candidate/verifOTP',
         config: {
             auth: false,
             payload: {
@@ -73,7 +73,20 @@ const rotues = [
                 multipart: { output: 'stream' },
             }
         },
-        handler: jobSeekers.verifOTP
+        handler: candidate.verifOTP
+    },
+    {
+        method: 'POST',
+        path: '/candidate/applyJob/{job_id}',
+        config: {
+            auth: 'jwt-candidate',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: job.applyJob
     },
     {
         method: 'POST',

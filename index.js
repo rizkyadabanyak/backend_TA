@@ -5,6 +5,7 @@ const rotues = require('./routes/Api.js');
 const JWT = require('jsonwebtoken');  // used to si
 const admin = require('./controllers/AdminController.js');
 const company = require('./controllers/CompanyController.js');
+const candidate = require('./controllers/users/CandidateController.js');
 
 const config = require('./database/config');
 
@@ -32,6 +33,10 @@ const validate = async function (decoded, request, h) {
         return { isValid: cek };
     }else if (as == 'company'){
         cek = await company.cekCompany(as,token);
+
+        return { isValid: cek };
+    }else if (as == 'candidate'){
+        cek = await candidate.cekCandidate(as,token);
 
         return { isValid: cek };
     }
@@ -83,7 +88,6 @@ const init = async () => {
         await config.db.sync();
     })();
 
-
     server.auth.strategy('jwt', 'jwt',
         { key: process.env.ACCESS_TOKEN_SECRET, // Never Share your secret key
             validate  // validate function defined above
@@ -91,6 +95,11 @@ const init = async () => {
 
     server.auth.strategy('jwt-admin', 'jwt',
         { key: process.env.ACCESS_TOKEN_SECRET_ADMIN, // Never Share your secret key
+            validate  // validate function defined above
+        });
+
+    server.auth.strategy('jwt-candidate', 'jwt',
+        { key: process.env.ACCESS_TOKEN_SECRET_CANDIDATE, // Never Share your secret key
             validate  // validate function defined above
         });
 
