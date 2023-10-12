@@ -272,13 +272,6 @@ const accept = async (request, h)=> {
     const cek_job = Job.findOne({ where: { job_id: job_id } });
 
 
-    return h.response({
-        message : "sukses menampilkan data",
-        data : cek_job,
-        status : "success",
-        statusCode : 200
-    });
-
     if (!status){
         return h.response({
             message : "status harus di isi",
@@ -294,9 +287,17 @@ const accept = async (request, h)=> {
         }
     })
 
+    if (status == 'yes'){
+        return h.response({
+            message : "sukses menerima pelamar",
+            data : job_id,
+            status : "success",
+            statusCode : 200
+        });
+    }
 
     return h.response({
-        message : "sukses menampilkan data",
+        message : "sukses menolak pelamar",
         data : job_id,
         status : "success",
         statusCode : 200
