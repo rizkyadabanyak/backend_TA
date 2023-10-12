@@ -89,6 +89,14 @@ const rotues = [
         handler: job.applyJob
     },
     {
+        method: 'GET',
+        path: '/candidate/showApplyJob',
+        config: {
+            auth: 'jwt-candidate',
+        },
+        handler: job.showApplyJob
+    },
+    {
         method: 'POST',
         path: '/admin/register',
         config: {
@@ -147,6 +155,27 @@ const rotues = [
             auth: 'jwt',
         },
         handler: company.logout
+    },
+    {
+        method: 'GET',
+        path: '/operation/jobApplicant',
+        config: {
+            auth: 'jwt',
+        },
+        handler: company.jobApplicant
+    },
+    {
+        method: 'POST',
+        path: '/operation/job/accept/{job_id}',
+        config: {
+            auth: 'jwt',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: company.accept
     },
     {
         method: 'POST',

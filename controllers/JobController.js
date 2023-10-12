@@ -25,8 +25,12 @@ const index = async (request, h)=>{
             "JOIN salary_end ON job.salary_end_id = salary_end.salary_end_id " +
             "JOIN experience_time ON job.experience_id = experience_time.experience_time_id");
 
+
         return h.response({
-            data : jobs.rows
+            message : 'sukses mengambil data',
+            data : jobs.rows,
+            status : "success",
+            statusCode : 200
         });
 
     } catch (error) {
@@ -59,7 +63,6 @@ const getDetailJob = async (request, h)=>{
     }
 
 }
-
 
 const store = async (request, h)=>{
 
@@ -101,9 +104,10 @@ const store = async (request, h)=>{
         });
 
         return h.response({
-            message : 'success create data job',
+            message : 'sukses membuat data',
             data : job,
             status : "success",
+            statusCode : 200
         });
 
     } catch (error) {
@@ -118,7 +122,6 @@ const store = async (request, h)=>{
 
     }
 }
-
 
 // const storeIMGUPLOAD = async (request, h)=>{
 //
@@ -231,9 +234,10 @@ const updateJob = async (request, h)=>{
             }
         });
         return h.response({
-            message : 'success edit data job',
+            message : 'sukses merubah data',
             data : job,
-            status : "success",        }
+            status : "success",
+            }
         );
 
     } catch (error) {
@@ -282,7 +286,7 @@ const applyJob = async (request, h)=>{
     if (!deskripsi || !change_cv_file || !cv_file){
         if (change_cv_file == 'new'){
             return h.response({
-                message : "All fields must be filled in",
+                message : "semua inputan harus di isi",
                 data : null,
                 status : "failed",
                 statusCode : 400
@@ -300,9 +304,9 @@ const applyJob = async (request, h)=>{
 
     if (cek_job_apply){
         return h.response({
-            message : "You have applied for this job",
+            message : "anda sudah melamar pada lowongan ini",
             data : null,
-            status : "error",
+            status : "failed",
             statusCode : 400
         }).code(400);
     }
@@ -325,7 +329,7 @@ const applyJob = async (request, h)=>{
             const update_cv = CandidateController.updateCv(data_candidate.candidate_id,upload_file)
 
             return h.response({
-                message : "success apply job",
+                message : "sukses melamar pekerjaan",
                 data : createJobApply,
                 status : "success",
                 statusCode : 200
@@ -336,9 +340,9 @@ const applyJob = async (request, h)=>{
 
         if (data_candidate.candidate_cv == null){
             return h.response({
-                message : "cv not be null",
+                message : "cv tidak boleh kosong",
                 data : null,
-                status : "error",
+                status : "failed",
                 statusCode : 400
             }).code(400);
         }
@@ -352,7 +356,7 @@ const applyJob = async (request, h)=>{
         });
 
         return h.response({
-            message : "success apply job",
+            message : "sukses melamar pekerjaan",
             data : createJobApply,
             status : "success",
             statusCode : 200
@@ -360,18 +364,53 @@ const applyJob = async (request, h)=>{
     }
 
 
+}
 
-    return h.response(data_candidate);
+const showApplyJob = async  (request, h) =>{
 
-    // return cekValidation;
+    const header = request.headers.authorization;
 
-    if (cekValidation.status == 'danger'){
+    const arrayHeader = header.split(" ");
 
-        return h.response(cekValidation);
+    const data_candidate = await CandidateController.getCandidate(arrayHeader[1]);
+    //
+    // const data = await JobApply.findAll(
+    //     {
+    //         where: {job_apply_candidate_id: String(data_candidate.candidate_id)}
+    //     })
+
+
+
+    try {
+        // const jobs = await request.pgsql.query(
+        //     "SELECT job.*,company.company_name,category.category_name,salary_start.salary_start_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job " +
+        //     "JOIN company ON job.job_company_id = company.company_id " +
+        //     "JOIN category ON job.category_id = category.category_id " +
+        //     "JOIN salary_start ON job.salary_start_id = salary_start.salary_start_id " +
+        //     "JOIN salary_end ON job.salary_end_id = salary_end.salary_end_id " +
+        //     "JOIN experience_time ON job.experience_id = experience_time.experience_time_id");
+
+
+        const data = await request.pgsql.query(
+            `SELECT job_apply.*,company.company_name,job.job_title FROM job_apply ` +
+            `JOIN company ON job_apply.job_apply_company_id = company.company_id ` +
+            `JOIN job ON job_apply.job_apply_job_id = job.job_id ` +
+            `where job_apply.job_apply_candidate_id = ${data_candidate.candidate_id}`);
+
+
+        return h.response({
+            message : "sukses menampilkan data",
+            data : data.rows,
+            status : "success",
+            statusCode : 200
+        });
+
+    } catch (error) {
+        console.log(error);
     }
+
 
 }
 
-
-module.exports = { store, updateJob , index, getDetailJob,applyJob }
+module.exports = { store, updateJob , index, getDetailJob,applyJob,showApplyJob }
 

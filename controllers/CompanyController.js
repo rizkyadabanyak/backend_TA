@@ -1,10 +1,15 @@
 const {Company} = require("../models/Company");
+const {JobApply} = require("../models/JobApply");
+
+const {Job} = require("../models/Job");
+
 const jwt = require('jsonwebtoken');  // used to si
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const CompanyRequest = require('../request/CompanyRequest');
 const slug= require('slug');
 const {Admin} = require("../models/Admin");
+const CandidateController = require("./users/CandidateController");
 require('dotenv').config()
 
 const register = async (request, h) =>{
@@ -16,7 +21,7 @@ const register = async (request, h) =>{
 
     // return cekValidation;
 
-    if (cekValidation.status == 'danger'){
+    if (cekValidation.status == 'failed'){
 
         return h.response(cekValidation);
     }
@@ -39,19 +44,19 @@ const register = async (request, h) =>{
         });
 
         return h.response({
-            message : 'success Register',
+            message : 'sukses mendaftar akun',
             data : null,
-            status : "success"
+            status : "success",
+            statusCode : 200
         });
 
     } catch (error) {
         return h.response({
             message : error,
             data : null,
-            status : "danger",
+            status : "failed",
             statusCode : 400
-
-        });
+        }).code(400);
     }
 }
 
@@ -67,7 +72,7 @@ const login = async (request, h) =>{
         return h.response({
             message :"isi semua field",
             data : null,
-            status : "danger",
+            status : "failed",
             statusCode : 400
         }).code(400);
     }
@@ -80,9 +85,10 @@ const login = async (request, h) =>{
 
         if (!company){
             return h.response({
-                message : 'Wrong Password',
+                message : 'password salah',
                 data : null,
-                status : "danger"
+                status : "failed",
+                statusCode : 401
             }).code(401)
         }
         const match = await bcrypt.compare(password, company.company_password);
@@ -90,9 +96,10 @@ const login = async (request, h) =>{
         // return match;
         if(!match){
             return h.response({
-                message : 'Wrong Password',
+                message : 'password salah',
                 data : null,
-                status : "danger"
+                status : "failed",
+                statusCode : 401
             }).code(400)
         }
         const userId = company.company_id;
@@ -129,7 +136,7 @@ const login = async (request, h) =>{
         return h.response({
             message : error,
             data : null,
-            status : "danger",
+            status : "failed",
             statusCode : 400
 
         }).code(400);
@@ -162,7 +169,7 @@ const logout = async (request, h) =>{
         return h.response({
             message : error.errors[0].message,
             data : null,
-            status : "danger",
+            status : "failed",
             statusCode : 400
 
         }).code(400);
@@ -228,7 +235,73 @@ const getCompany = async (token)=>{
 
 }
 
+const jobApplicant = async (request, h)=> {
+
+    const header = request.headers.authorization;
+
+    const arrayHeader = header.split(" ");
+
+    const data_company = await getCompany(arrayHeader[1]);
 
 
-module.exports = { register , login, logout ,cekCompany,getCompany}
+    const data = await request.pgsql.query(
+        `SELECT job_apply.*,company.company_name,job.job_title FROM job_apply ` +
+        `JOIN company ON job_apply.job_apply_company_id = company.company_id ` +
+        `JOIN job ON job_apply.job_apply_job_id = job.job_id ` +
+        `where job_apply.job_apply_company_id = ${data_company.company_id}`);
+
+    return h.response({
+        message : "sukses menampilkan data",
+        data : data.rows,
+        status : "success",
+        statusCode : 200
+    });
+}
+const accept = async (request, h)=> {
+
+
+    const {job_id} = request.params; // param
+    const { status } = request.payload;  // form
+
+    // const header = request.headers.authorization;
+    //
+    // const arrayHeader = header.split(" ");
+
+    // const data_candidate = await CandidateController.getCandidate(arrayHeader[1]);
+
+    const cek_job = Job.findOne({ where: { job_id: job_id } });
+
+
+    return h.response({
+        message : "sukses menampilkan data",
+        data : cek_job,
+        status : "success",
+        statusCode : 200
+    });
+
+    if (!status){
+        return h.response({
+            message : "status harus di isi",
+            data : null,
+            status : "failed",
+            statusCode : 400
+        });
+    }
+
+    const data = await JobApply.update({job_apply_accept: status},{
+        where:{
+            job_apply_job_id: job_id
+        }
+    })
+
+
+    return h.response({
+        message : "sukses menampilkan data",
+        data : job_id,
+        status : "success",
+        statusCode : 200
+    });
+}
+
+module.exports = { register , login, logout ,cekCompany,getCompany,accept,jobApplicant}
 
