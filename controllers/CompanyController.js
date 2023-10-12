@@ -13,8 +13,6 @@ const CandidateController = require("./users/CandidateController");
 require('dotenv').config()
 
 const register = async (request, h) =>{
-
-
     const { name,username,confPassword , email,address, password } = request.payload;
 
     const cekValidation= await CompanyRequest.regisReq(name,username,confPassword , email,address, password);
@@ -257,9 +255,8 @@ const jobApplicant = async (request, h)=> {
         statusCode : 200
     });
 }
+
 const accept = async (request, h)=> {
-
-
     const {job_id} = request.params; // param
     const { status } = request.payload;  // form
 

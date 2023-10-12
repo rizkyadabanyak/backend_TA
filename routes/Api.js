@@ -179,6 +179,19 @@ const rotues = [
     },
     {
         method: 'POST',
+        path: '/operation/job/offerCandidate/{job_id}',
+        config: {
+            auth: 'jwt',
+            payload: {
+                parse: true,
+                allow: 'multipart/form-data',
+                multipart: { output: 'stream' },
+            },
+        },
+        handler: company.accept
+    },
+    {
+        method: 'POST',
         path: '/operation/job/store',
         config: {
             auth: 'jwt',
