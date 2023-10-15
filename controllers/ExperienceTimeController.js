@@ -97,6 +97,28 @@ const update = async (request, h)=>{
 
 }
 
+const show = async (request, h)=>{
+    const {experience_time_id} = request.params;
 
-module.exports = { store,index,update }
+
+    try {
+
+        const data = await ExperienceTime.findOne({ where: { experience_time_id: experience_time_id } });
+
+
+        return h.response({
+            message : 'sukses menampilkan data',
+            data : data,
+            status : "success",
+            statusCode : 200
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+module.exports = { store,index,update,show }
 

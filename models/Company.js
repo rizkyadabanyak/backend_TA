@@ -43,7 +43,12 @@ const Company = config.db.define('company', {
     },
     company_refresh_token:{
         type: DataTypes.TEXT
-    }
+    },
+    company_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
 
     freezeTableName:true

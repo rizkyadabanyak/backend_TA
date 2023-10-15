@@ -15,6 +15,11 @@ const ExperienceTime = config.db.define('experience_time', {
         allowNull: false,
         unique: true
     },
+    experience_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

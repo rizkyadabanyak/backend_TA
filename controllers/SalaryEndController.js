@@ -4,6 +4,7 @@ const fs = require('fs');
 const slug= require('slug');
 const {Job} = require("../models/Job");
 const SalaryRequest = require("../request/SalaryRequest");
+const {Category} = require("../models/Catogory");
 
 const index = async (request, h)=>{
     try {
@@ -96,6 +97,28 @@ const update = async (request, h)=>{
 
 }
 
+const show = async (request, h)=>{
+    const {salary_end_id} = request.params;
 
-module.exports = { store,index,update }
+
+    try {
+
+        const data = await SalaryEnd.findOne({ where: { salary_end_id: salary_end_id } });
+
+
+        return h.response({
+            message : 'sukses menampilkan data',
+            data : data,
+            status : "success",
+            statusCode : 200
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+module.exports = { store,index,update,show }
 

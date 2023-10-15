@@ -14,6 +14,11 @@ const Level = config.db.define('level', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    level_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

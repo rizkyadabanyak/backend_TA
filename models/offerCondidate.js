@@ -25,6 +25,11 @@ const OfferCandidate = config.db.define('offer_candidate', {
         allowNull: false,
         defaultValue: 'netral'
     },
+    offer_candidate_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true,
 });

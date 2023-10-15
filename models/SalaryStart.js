@@ -15,6 +15,11 @@ const SalaryStart = config.db.define('salary_start', {
         allowNull: false,
         unique: true
     },
+    salary_start_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

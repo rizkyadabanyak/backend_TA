@@ -20,6 +20,11 @@ const TypeJob = config.db.define('type_job', {
         allowNull: false,
         unique: true
     },
+    type_job_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

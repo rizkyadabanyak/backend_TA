@@ -75,6 +75,11 @@ const Job = config.db.define('job', {
     job_closed:{
         type: DataTypes.DATE
     },
+    job_flag:{
+        type: DataTypes.ENUM('close','open'),
+        allowNull: false,
+        defaultValue: 'open'
+    },
 
 },{
 

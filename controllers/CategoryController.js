@@ -131,6 +131,28 @@ const destroy = async (request, h)=>{
 
 }
 
+const show = async (request, h)=>{
+    const {category_id} = request.params;
 
-module.exports = { store, getAllCategory,index,update,destroy }
+
+    try {
+
+        const data = await Category.findOne({ where: { category_id: category_id } });
+
+
+        return h.response({
+            message : 'sukses menampilkan data',
+            data : data,
+            status : "success",
+            statusCode : 200
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+module.exports = { store, getAllCategory,index,update,destroy,show }
 

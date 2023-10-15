@@ -17,13 +17,24 @@ const {DataTypes} = Sequelize;
 const index = async (request, h)=>{
 
     try {
+        const header = request.headers.authorization;
+
+        const arrayHeader = header.split(" ");
+
+
+        // return
+        const data_company = await CompanyController.getCompany(arrayHeader[1]);
+
+
         const jobs = await request.pgsql.query(
-            "SELECT job.*,company.company_name,category.category_name,salary_start.salary_start_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job " +
-            "JOIN company ON job.job_company_id = company.company_id " +
-            "JOIN category ON job.category_id = category.category_id " +
-            "JOIN salary_start ON job.salary_start_id = salary_start.salary_start_id " +
-            "JOIN salary_end ON job.salary_end_id = salary_end.salary_end_id " +
-            "JOIN experience_time ON job.experience_id = experience_time.experience_time_id");
+            `SELECT job.*,company.company_name,category.category_name,salary_start.salary_start_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job ` +
+            `JOIN company ON job.job_company_id = company.company_id ` +
+            `JOIN category ON job.category_id = category.category_id `+
+            `JOIN salary_start ON job.salary_start_id = salary_start.salary_start_id `+
+            `JOIN salary_end ON job.salary_end_id = salary_end.salary_end_id `+
+            `JOIN experience_time ON job.experience_id = experience_time.experience_time_id 
+            where job.job_company_id = ${data_company.company_id}
+            `);
 
 
         return h.response({
@@ -54,9 +65,15 @@ const getDetailJob = async (request, h)=>{
 
         const job = await Job.findOne({ where: { job_id: param.job_id } });
 
+
+
         return h.response({
-            data : job
+            message : 'sukses menampilkan data',
+            data : job,
+            status : "success",
+            statusCode : 200
         });
+
 
     } catch (error) {
         console.log(error);

@@ -220,7 +220,7 @@ const rotues = [
         method: 'GET',
         path: '/operation/job/index',
         config: {
-            auth: false,
+            auth: 'jwt',
         },
         handler: job.index
     },
@@ -244,6 +244,14 @@ const rotues = [
             auth: false,
         },
         handler: category.index
+    },
+    {
+        method: 'GET',
+        path: '/operation/category/show/{category_id}',
+        config: {
+            auth: false,
+        },
+        handler: category.show
     },
     {
         method: 'POST',
@@ -283,9 +291,17 @@ const rotues = [
         method: 'GET',
         path: '/operation/SalaryStart/index',
         config: {
-            auth: false,
+            auth: 'jwt-admin',
         },
         handler: SalaryStart.index
+    },
+    {
+        method: 'GET',
+        path: '/operation/SalaryStart/show/{salary_start_id}',
+        config: {
+            auth: 'jwt-admin',
+        },
+        handler: SalaryStart.show
     },
     {
         method: 'POST',
@@ -311,7 +327,15 @@ const rotues = [
                 multipart: { output: 'stream' },
             },
         },
-        handler: SalaryEnd.store
+        handler: SalaryEnd.show
+    },
+    {
+        method: 'GET',
+        path: '/operation/SalaryEnd/show/{salary_end_id}',
+        config: {
+            auth: false,
+        },
+        handler: category.show
     },
     {
         method: 'GET',
@@ -351,9 +375,17 @@ const rotues = [
         method: 'GET',
         path: '/operation/ExperienceTime/index',
         config: {
-            auth: false,
+            auth: 'jwt-admin',
         },
         handler: ExperienceTime.index
+    },
+    {
+        method: 'GET',
+        path: '/operation/ExperienceTime/show/{experience_time_id}',
+        config: {
+            auth: 'jwt-admin',
+        },
+        handler: ExperienceTime.show
     },
     {
         method: 'POST',

@@ -15,6 +15,11 @@ const SalaryEnd = config.db.define('salary_end', {
         allowNull: false,
         unique: true
     },
+    salary_end_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

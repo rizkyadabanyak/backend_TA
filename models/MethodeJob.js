@@ -20,6 +20,11 @@ const MethodeJob = config.db.define('methode_job', {
         allowNull: false,
         unique: true
     },
+    methode_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });

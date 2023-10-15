@@ -19,6 +19,11 @@ const Category = config.db.define('category', {
         allowNull: true,
         unique: true
     },
+    category_flag:{
+        type: DataTypes.ENUM('active','non-active'),
+        allowNull: false,
+        defaultValue: 'active'
+    },
 },{
     freezeTableName:true
 });
