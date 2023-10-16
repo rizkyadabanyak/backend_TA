@@ -27,11 +27,11 @@ const index = async (request, h)=>{
 
 
         const jobs = await request.pgsql.query(
-            `SELECT job.*,company.company_name,category.category_name,salary_start.salary_start_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job ` +
+            `SELECT job.*,company.company_name,category.category_name,salary.salary_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job ` +
             `JOIN company ON job.job_company_id = company.company_id ` +
             `JOIN category ON job.category_id = category.category_id `+
-            `JOIN salary_start ON job.salary_start_id = salary_start.salary_start_id `+
-            `JOIN salary_end ON job.salary_end_id = salary_end.salary_end_id `+
+            `JOIN salary_start ON job.salary_start_id = salary.salary_start_id `+
+            `JOIN salary_end ON job.salary_end_id = salary.salary_end_id `+
             `JOIN experience_time ON job.experience_id = experience_time.experience_time_id 
             where job.job_company_id = ${data_company.company_id}
             `);

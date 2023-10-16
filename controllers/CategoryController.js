@@ -50,7 +50,7 @@ const store = async (request, h)=>{
 const update = async (request, h)=>{
 
     const {category_id} = request.params;
-    const { category_name } = request.payload;
+    const { category_name,category_flag } = request.payload;
 
     const slug_data = slug(category_name, '_');
 
@@ -59,6 +59,7 @@ const update = async (request, h)=>{
         const job =  await Category.update({
             category_name: category_name,
             category_slug: slug_data,
+            category_flag: category_flag,
         },{
             where:{
                 category_id: category_id

@@ -62,7 +62,7 @@ const store = async (request, h)=>{
 const update = async (request, h)=>{
 
     const {experienceTime_id} = request.params;
-    const { experience_name } = request.payload;
+    const { experience_name,experience_flag } = request.payload;
 
     // return experienceTime_id;
     try {
@@ -71,7 +71,8 @@ const update = async (request, h)=>{
             experience_time_name: experience_name,
         },{
             where:{
-                experience_time_id: experienceTime_id
+                experience_time_id: experienceTime_id,
+                experience_flag: experience_flag,
             }
         });
 
@@ -79,7 +80,7 @@ const update = async (request, h)=>{
 
         return h.response({
             message : 'success edit data',
-            data : null,
+            data : experience_flag,
             status : "success"
         });
 

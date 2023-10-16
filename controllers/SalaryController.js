@@ -58,7 +58,7 @@ const store = async (request, h)=>{
 const update = async (request, h)=>{
 
     const {salary_id} = request.params;
-    const { salary } = request.payload;
+    const { salary,salary_flag } = request.payload;
 
     // return salary;
 
@@ -67,6 +67,7 @@ const update = async (request, h)=>{
 
         const data =  await Salary.update({
             salary_nominal: salary,
+            salary_flag: salary_flag
         },{
             where:{
                 salary_id: salary_id
