@@ -1,4 +1,4 @@
-const { SalaryEnd } = require("../models/SalaryEnd");
+const { SalaryEnd } = require("../models/Salary");
 const Joi = require('joi');
 const fs = require('fs');
 const slug= require('slug');

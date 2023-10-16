@@ -4,18 +4,18 @@ const config= require('../database/config');
 
 const {DataTypes} = Sequelize;
 
-const SalaryStart = config.db.define('salary_start', {
-    salary_start_id: {
+const Salary = config.db.define('salary', {
+    salary_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    salary_start_nominal: {
+    salary_nominal: {
         type: DataTypes.FLOAT,
         allowNull: false,
         unique: true
     },
-    salary_start_flag:{
+    salary_flag:{
         type: DataTypes.ENUM('active','non-active'),
         allowNull: false,
         defaultValue: 'active'
@@ -25,4 +25,4 @@ const SalaryStart = config.db.define('salary_start', {
 });
 
 
-module.exports = {SalaryStart}
+module.exports = { Salary }

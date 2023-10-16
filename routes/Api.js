@@ -3,8 +3,7 @@ const candidate = require('../controllers/users/CandidateController');
 const admin = require('../controllers/AdminController.js');
 const job = require('../controllers/JobController.js');
 const category = require('../controllers/CategoryController.js');
-const SalaryStart = require('../controllers/SalaryStartController.js');
-const SalaryEnd= require('../controllers/SalaryEndController.js');
+const Salary = require('../controllers/SalaryController.js');
 const ExperienceTime = require('../controllers/ExperienceTimeController.js');
 const Seeder = require('../seeders/Seeder');
 
@@ -276,7 +275,7 @@ const rotues = [
     },
     {
         method: 'POST',
-        path: '/operation/SalaryStart/store',
+        path: '/operation/salary/store',
         config: {
             auth: 'jwt-admin',
             payload: {
@@ -285,27 +284,27 @@ const rotues = [
                 multipart: { output: 'stream' },
             },
         },
-        handler: SalaryStart.store
+        handler: Salary.store
     },
     {
         method: 'GET',
-        path: '/operation/SalaryStart/index',
+        path: '/operation/salary/index',
         config: {
             auth: 'jwt-admin',
         },
-        handler: SalaryStart.index
+        handler: Salary.index
     },
     {
         method: 'GET',
-        path: '/operation/SalaryStart/show/{salary_start_id}',
+        path: '/operation/salary/show/{salary_id}',
         config: {
             auth: 'jwt-admin',
         },
-        handler: SalaryStart.show
+        handler: Salary.show
     },
     {
         method: 'POST',
-        path: '/operation/SalaryStart/update/{salaryStart_id}',
+        path: '/operation/salary/update/{salary_id}',
         config: {
             auth: 'jwt-admin',
             payload: {
@@ -314,49 +313,15 @@ const rotues = [
                 multipart: { output: 'stream' },
             },
         },
-        handler: SalaryStart.update
+        handler: Salary.update
     },
     {
-        method: 'POST',
-        path: '/operation/SalaryEnd/store',
+        method: 'DELETE',
+        path: '/operation/salary/index',
         config: {
             auth: 'jwt-admin',
-            payload: {
-                parse: true,
-                allow: 'multipart/form-data',
-                multipart: { output: 'stream' },
-            },
         },
-        handler: SalaryEnd.show
-    },
-    {
-        method: 'GET',
-        path: '/operation/SalaryEnd/show/{salary_end_id}',
-        config: {
-            auth: false,
-        },
-        handler: category.show
-    },
-    {
-        method: 'GET',
-        path: '/operation/SalaryEnd/index',
-        config: {
-            auth: false,
-        },
-        handler: SalaryEnd.index
-    },
-    {
-        method: 'POST',
-        path: '/operation/SalaryEnd/update/{salaryEnd_id}',
-        config: {
-            auth: 'jwt-admin',
-            payload: {
-                parse: true,
-                allow: 'multipart/form-data',
-                multipart: { output: 'stream' },
-            },
-        },
-        handler: SalaryEnd.update
+        handler: Salary.index
     },
     {
         method: 'POST',
