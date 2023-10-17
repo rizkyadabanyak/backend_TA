@@ -257,7 +257,7 @@ const jobApplicant = async (request, h)=> {
 }
 
 const accept = async (request, h)=> {
-    const {job_id} = request.params; // param
+    const { job_apply_id } = request.params; // param
     const { status } = request.payload;  // form
 
     // const header = request.headers.authorization;
@@ -266,7 +266,20 @@ const accept = async (request, h)=> {
 
     // const data_candidate = await CandidateController.getCandidate(arrayHeader[1]);
 
-    const cek_job = Job.findOne({ where: { job_id: job_id } });
+
+    const cek_job = await JobApply.findOne({ where: { job_apply_id: job_apply_id } });
+
+
+    if (!cek_job){
+
+        return h.response({
+            message : "Job apply tidak ada",
+            data : null,
+            status : "failed",
+            statusCode : 400
+        });
+
+    }
 
 
     if (!status){
@@ -278,16 +291,20 @@ const accept = async (request, h)=> {
         });
     }
 
+
+
+
+
     const data = await JobApply.update({job_apply_accept: status},{
         where:{
-            job_apply_job_id: job_id
+            job_apply_id: job_apply_id
         }
     })
 
     if (status == 'yes'){
         return h.response({
             message : "sukses menerima pelamar",
-            data : job_id,
+            data : job_apply_id,
             status : "success",
             statusCode : 200
         });
@@ -295,7 +312,7 @@ const accept = async (request, h)=> {
 
     return h.response({
         message : "sukses menolak pelamar",
-        data : job_id,
+        data : job_apply_id,
         status : "success",
         statusCode : 200
     });

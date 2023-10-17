@@ -6,7 +6,13 @@ const {Job} = require("../models/Job");
 
 const getAllCategory = async (request, h)=>{
     try {
-        const categories = await Category.findAll();
+        const categories = await Category.findAll(
+            {
+                where: {
+                    category_flag: 'active'
+                }
+            }
+        );
         return h.response({
             data : categories
         });
@@ -90,7 +96,11 @@ const index = async (request, h)=>{
 
     try {
 
-        const data = await Category.findAll();
+        const data = await Category.findAll({
+            where: {
+                authorId: 2
+            }
+        });
 
         return h.response({
             data : data
@@ -153,7 +163,6 @@ const show = async (request, h)=>{
     }
 
 }
-
 
 module.exports = { store, getAllCategory,index,update,destroy,show }
 

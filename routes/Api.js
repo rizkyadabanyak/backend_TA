@@ -165,7 +165,7 @@ const rotues = [
     },
     {
         method: 'POST',
-        path: '/operation/job/accept/{job_id}',
+        path: '/operation/job/accept/{job_apply_id}',
         config: {
             auth: 'jwt',
             payload: {
@@ -222,6 +222,30 @@ const rotues = [
             auth: 'jwt',
         },
         handler: job.index
+    },
+    {
+        method: 'GET',
+        path: '/operation/getAll/category',
+        config: {
+            auth: false,
+        },
+        handler: category.getAllCategory
+    },
+    {
+        method: 'GET',
+        path: '/operation/getAll/salary',
+        config: {
+            auth: false,
+        },
+        handler: Salary.getAllSalary
+    },
+    {
+        method: 'GET',
+        path: '/operation/getAll/ExperienceTime',
+        config: {
+            auth: false,
+        },
+        handler: ExperienceTime.getAllExperienceTime
     },
     {
         method: 'POST',

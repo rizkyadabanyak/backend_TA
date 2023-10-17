@@ -27,11 +27,11 @@ const index = async (request, h)=>{
 
 
         const jobs = await request.pgsql.query(
-            `SELECT job.*,company.company_name,category.category_name,salary.salary_nominal,salary_end.salary_end_nominal,experience_time.experience_time_name FROM job ` +
+            `SELECT job.*,company.company_name,category.category_name,salary_start.salary_nominal as salary_start_nominal,salary_end.salary_nominal as salary_end_nominal,experience_time.experience_time_name FROM job ` +
             `JOIN company ON job.job_company_id = company.company_id ` +
             `JOIN category ON job.category_id = category.category_id `+
-            `JOIN salary_start ON job.salary_start_id = salary.salary_start_id `+
-            `JOIN salary_end ON job.salary_end_id = salary.salary_end_id `+
+            `JOIN salary AS salary_start ON job.salary_start_id = salary_start.salary_id `+
+            `JOIN salary AS salary_end ON job.salary_end_id = salary_end.salary_id `+
             `JOIN experience_time ON job.experience_id = experience_time.experience_time_id 
             where job.job_company_id = ${data_company.company_id}
             `);
@@ -219,7 +219,7 @@ const updateJob = async (request, h)=>{
 
     const data_company= await CompanyController.getCompany(arrayHeader[1]);
 
-    const {category_id,salary_start_id,salary_end_id,experience_id, job_title,job_description,job_level,job_type,job_qualification,job_methode,job_closed} = request.payload;
+    const {category_id,salary_start_id,salary_end_id,experience_id, job_title,job_description,job_level,job_type,job_qualification,job_methode,job_closed,job_flag} = request.payload;
 
     const cekValidation= await JobRequest.job(category_id,salary_start_id,salary_end_id,experience_id, job_title,job_description,job_level,job_type,job_qualification,job_methode,job_closed);
 
@@ -245,6 +245,7 @@ const updateJob = async (request, h)=>{
             job_methode: job_methode,
             job_qualification: job_qualification,
             job_closed: job_closed,
+            job_flag: job_flag,
         },{
             where:{
                 job_id: param.job_id

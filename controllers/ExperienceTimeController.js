@@ -1,4 +1,4 @@
-const { SalaryEnd } = require("../models/Salary");
+const { SalaryEnd, Salary} = require("../models/Salary");
 const Joi = require('joi');
 const fs = require('fs');
 const slug= require('slug');
@@ -120,6 +120,25 @@ const show = async (request, h)=>{
 
 }
 
+const getAllExperienceTime = async (request, h)=>{
+    try {
 
-module.exports = { store,index,update,show }
+        const data = await ExperienceTime.findAll(
+            {
+                where: {
+                    experience_flag: 'active'
+                }
+            }
+        );
+
+        return h.response({
+            data : data
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+module.exports = { store,index,update,show,getAllExperienceTime }
 

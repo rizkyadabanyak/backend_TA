@@ -116,7 +116,22 @@ const show = async (request, h)=>{
     }
 
 }
+const getAllSalary = async (request, h)=>{
+    try {
+        const data = await Salary.findAll(
+            {
+                where: {
+                    salary_flag: 'active'
+                }
+            }
+        );
+        return h.response({
+            data : data
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-
-module.exports = { store,index,update,show }
+module.exports = { store,index,update,show,getAllSalary }
 
