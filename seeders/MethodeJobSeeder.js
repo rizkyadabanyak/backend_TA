@@ -7,15 +7,17 @@ const store = async (request, h)=>{
     try {
 
         const data = await MethodeJob.bulkCreate([
-            { methodeJob_name: 'Work from office',methodeJob_slug : slug('Work from office', '_')},
-            { methodeJob_name: 'Hybrid',methodeJob_slug : slug('Hybrid', '_')},
-            { methodeJob_name: 'Work from home',methodeJob_slug : slug('Work from home', '_')},
+            { methode_job_name: 'Work from office',methode_job_slug : slug('Work from office', '_'),methode_flag:'active'},
+            { methode_job_name: 'Hybrid',methode_job_slug : slug('Hybrid', '_'),methode_flag:'active'},
+            { methode_job_name: 'Work from home',methode_job_slug : slug('Work from home', '_'),methode_flag:'active'},
         ]);
 
         return 'success';
 
     } catch (error) {
 
+
+        console.log(error)
         return h.response({
             message : error.errors[0].message,
             data : null,

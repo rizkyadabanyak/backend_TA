@@ -8,9 +8,9 @@ const store = async (request, h)=>{
     try {
 
         const data = await TypeJob.bulkCreate([
-            { typeJob_name: 'Full Time',typeJob_slug : slug('Full Time', '_')},
-            { typeJob_name: 'Part Time',typeJob_slug : slug('Part Time', '_')},
-            { typeJob_name: 'Kontrak',typeJob_slug : slug('Kontrak', '_')},
+            { type_job_name: 'Full Time',type_job_slug : slug('Full Time', '_')},
+            { type_job_name: 'Part Time',type_job_slug : slug('Part Time', '_')},
+            { type_job_name: 'Kontrak',type_job_slug : slug('Kontrak', '_')},
         ]);
 
         return 'success';

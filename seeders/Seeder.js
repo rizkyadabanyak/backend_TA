@@ -6,10 +6,10 @@ const  LevelSeeder = require ("../seeders/LevelSeeder");;
 const  TypeJobSeeder = require ("../seeders/TypeJobSeeder");;
 const  MethodeJobSeeder = require ("../seeders/MethodeJobSeeder");;
 
-const runSeeder = async (request, h)=>{
+const runSeeder = async (request, h)=> {
+    MethodeJobSeeder.store();
     LevelSeeder.store();
     TypeJobSeeder.store();
-    MethodeJobSeeder.store();
 
     return true;
 }
